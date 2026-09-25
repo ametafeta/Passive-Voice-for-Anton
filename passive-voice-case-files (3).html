@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passive Voice — The Case Files</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=PT+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #eee7da;
+    --paper-dark: #e2d8c4;
+    --ink: #23201b;
+    --ink-soft: #5a5348;
+    --violet: #4a3a6b;
+    --violet-dark: #372a51;
+    --gold: #a9822c;
+    --green: #2f6d4f;
+    --red: #a23a2c;
+    --card-a: #26463f;
+    --card-b: #3d5163;
+    --card-c: #7e2c21;
+    --line: rgba(35,32,27,0.16);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 12% 6%, rgba(74,58,107,0.08), transparent 42%),
+      radial-gradient(circle at 92% 90%, rgba(169,130,44,0.08), transparent 45%),
+      var(--paper);
+    color: var(--ink);
+    font-family:'PT Sans', sans-serif;
+    line-height:1.55;
+    padding: 48px 20px 90px;
+  }
+  .wrap{max-width: 940px; margin:0 auto;}
+
+  header{margin-bottom: 52px;}
+  .kicker{font-family:'PT Serif', serif; font-style:italic; color:var(--violet); font-size:15px; margin:0 0 6px;}
+  h1{
+    font-family:'PT Serif', serif; font-weight:700;
+    font-size: clamp(32px, 5.2vw, 50px);
+    margin:0 0 14px; letter-spacing:-0.01em;
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 18px;
+  }
+  header p{max-width:660px; color:var(--ink-soft); font-size:16px; margin:0;}
+  header p em{color:var(--violet); font-style:normal; border-bottom:1px dotted var(--violet);}
+
+  .section-head{display:flex; align-items:baseline; gap:14px; margin:0 0 24px;}
+  .section-num{
+    font-family:'PT Serif', serif; font-weight:700; font-size:15px;
+    color: var(--paper); background: var(--violet);
+    width:30px; height:30px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .section-head h2{font-family:'PT Serif', serif; font-size:26px; margin:0;}
+  .section-head span{font-size:13px; color:var(--ink-soft);}
+  section{margin-bottom: 68px;}
+
+  /* ---- formula banner ---- */
+  .formula{
+    background: var(--violet);
+    color: var(--paper);
+    font-family:'PT Serif', serif;
+    font-size: clamp(18px, 3vw, 24px);
+    font-weight: 700;
+    padding: 22px 24px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+    white-space: pre-line;
+  }
+  .formula .sub{
+    display:block; font-family:'PT Sans', sans-serif; font-weight:400;
+    font-size: 14px; opacity:0.82; margin-top:10px;
+  }
+  .essence{
+    background: var(--paper-dark);
+    border-left: 4px solid var(--gold);
+    padding: 16px 18px;
+    font-size: 15px;
+    color: var(--ink-soft);
+    border-radius: 3px;
+    margin-bottom: 30px;
+    white-space: pre-line;
+  }
+
+  /* ---- accordion tenses ---- */
+  .accordion{border-top: 1px solid var(--line);}
+  .acc-item{border-bottom: 1px solid var(--line);}
+  .acc-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 4px;
+    cursor:pointer;
+    gap: 12px;
+  }
+  .acc-title{font-family:'PT Serif', serif; font-weight:700; font-size:18px;}
+  .acc-arrow{
+    font-size: 18px; color: var(--violet);
+    transition: transform .25s ease;
+    flex-shrink:0;
+  }
+  .acc-item.open .acc-arrow{transform: rotate(180deg);}
+  .acc-body{
+    max-height:0; overflow:hidden;
+    transition: max-height .35s ease, padding .35s ease;
+    padding: 0 4px;
+  }
+  .acc-item.open .acc-body{max-height: 620px; padding: 0 4px 20px;}
+  .acc-note{
+    font-size: 14.5px;
+    color: var(--ink-soft);
+    margin: 4px 0 12px;
+  }
+  .ex-line{
+    font-size: 15px;
+    padding: 8px 14px;
+    background: var(--paper-dark);
+    border-radius: 3px;
+    margin-bottom: 8px;
+  }
+  .compare-box{
+    margin-top: 12px;
+    background: rgba(74,58,107,0.07);
+    border-radius: 3px;
+    padding: 12px 14px;
+    font-size: 14.5px;
+    white-space: pre-line;
+  }
+  .compare-box .label{color:var(--violet); font-weight:700; display:block; margin-bottom:6px;}
+
+  /* ---- static text sections (когда использовать / трансформация) ---- */
+  .plain-block{
+    background: var(--paper-dark);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 20px 22px;
+  }
+  .plain-block .line{font-size: 15px; padding: 6px 0;}
+  .transform-item{
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+  }
+  .transform-item:last-child{border-bottom:none;}
+  .transform-item .ru{color: var(--ink-soft); margin-top: 4px;}
+
+  .keyline{
+    margin-top: 26px;
+    background: var(--gold);
+    color: var(--paper);
+    font-family:'PT Serif', serif;
+    font-weight:700;
+    font-size: 16.5px;
+    padding: 16px 20px;
+    border-radius: 4px;
+  }
+
+  /* ---- MCQ (Exercise 1) ---- */
+  .q-list{display:flex; flex-direction:column; gap:14px;}
+  .q-card{
+    background: var(--paper-dark);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 16px 18px;
+  }
+  .q-prompt{font-size: 15.5px; margin-bottom: 12px; font-weight:700;}
+  .q-num{color:var(--violet); font-family:'PT Serif', serif;}
+  .opts{display:flex; flex-wrap:wrap; gap:10px;}
+  .opt{
+    font-family:'PT Sans', sans-serif;
+    font-size: 14px;
+    background: var(--paper);
+    border: 1.5px solid var(--line);
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor:pointer;
+    transition: all .15s ease;
+  }
+  .opt:hover{border-color: var(--violet);}
+  .opt.correct{background: var(--green); border-color: var(--green); color: var(--paper);}
+  .opt.wrong{background: var(--red); border-color: var(--red); color: var(--paper);}
+  .opt.disabled{cursor:default; opacity:0.85;}
+  .q-card.answered .opt:not(.correct):not(.wrong){opacity:0.5;}
+
+  /* ---- Exercise 2 (toggle pairs) ---- */
+  .pair-list{display:flex; flex-direction:column; gap:16px;}
+  .pair-card{
+    background: var(--paper-dark);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 16px 18px;
+    font-size: 15.5px;
+    display:flex; flex-wrap:wrap; align-items:center; gap:8px;
+  }
+  .pair-toggle{
+    display:inline-flex; border-radius: 20px; overflow:hidden;
+    border: 1.5px solid var(--violet);
+  }
+  .pair-btn{
+    font-family:'PT Sans', sans-serif; font-size:14px;
+    background: var(--paper); border:none; padding: 7px 14px;
+    cursor:pointer; color: var(--ink);
+  }
+  .pair-btn.correct{background: var(--green); color: var(--paper);}
+  .pair-btn.wrong{background: var(--red); color: var(--paper);}
+
+  /* ---- Exercise 3 & 4 : square tile flip cards ---- */
+  .tile-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 760px){ .tile-grid{grid-template-columns: repeat(2, 1fr);} }
+  @media (max-width: 440px){ .tile-grid{grid-template-columns: 1fr;} }
+
+  .tile{
+    perspective: 1200px;
+    height: 220px;
+  }
+  .tile-inner{
+    position: relative;
+    width:100%; height:100%;
+    transform-style: preserve-3d;
+    transition: transform .5s cubic-bezier(.4,.2,.2,1);
+  }
+  .tile.flipped .tile-inner{transform: rotateY(180deg);}
+
+  .tile-face{
+    position:absolute; inset:0;
+    border-radius: 10px;
+    backface-visibility: hidden;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding: 18px;
+    box-shadow: 4px 4px 0 rgba(35,32,27,0.14);
+    cursor: pointer;
+    user-select: none;
+  }
+  .tile-front{background: var(--card-a); color: var(--paper);}
+  .tile:nth-child(3n+2) .tile-front{background: var(--card-b);}
+  .tile:nth-child(3n+3) .tile-front{background: var(--card-c);}
+
+  .tile-back{
+    background: var(--paper);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    transform: rotateY(180deg);
+    box-shadow: 4px 4px 0 rgba(35,32,27,0.10);
+  }
+  .tile-tag{
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    opacity: 0.72;
+  }
+  .tile-word{
+    font-family:'PT Serif', serif;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.28;
+  }
+  .tile-emoji{font-size: 22px; align-self:flex-end;}
+  .tile-answer{
+    font-family:'PT Serif', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--green);
+    line-height:1.3;
+  }
+  .tile-hint{font-size: 10px; color: var(--ink-soft); text-align:right;}
+  .tile-ru{
+    font-family:'PT Serif', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height:1.3;
+  }
+  .ex-desc{font-size: 14.5px; color: var(--ink-soft); margin: -10px 0 20px;}
+
+  footer{margin-top:44px; text-align:center; font-size:12.5px; color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <p class="kicker">Grammar case file &middot; open and investigate</p>
+    <h1>Passive Voice: The Case Files</h1>
+    <p>Разбираем Passive Voice на супергероях и волшебниках, а потом проверяем себя в четырёх упражнениях. <em>Кликайте на времена, вопросы и карточки — всё интерактивно.</em></p>
+  </header>
+
+  <section id="theory">
+    <div class="section-head">
+      <span class="section-num">1</span>
+      <h2>Passive Voice (Пассивный залог) — кратко 🕷️</h2>
+      <span>tap a tense to open it</span>
+    </div>
+
+    <div class="formula">Формула: be + V3 (past participle) ⚙️<span class="sub">(be + глагол в 3 форме; если её нет — то используем глагол с -ed)</span></div>
+    <div class="essence">Суть: не важно, КТО делает действие — важно, ЧТО происходит с объектом 🎯
+
+По-русски это страдательный залог — над объектом совершается действие / постороннее влияние другим объектом (omg, звучит жутко))) 😅</div>
+
+    <div class="accordion" id="accordion"></div>
+
+    <div class="plain-block" id="transform" style="margin-top:26px;"></div>
+
+    <div class="keyline">Ключевое: в passive главный герой — тот, НАД кем совершают действие, а не тот, КТО совершает 🎬</div>
+  </section>
+
+  <section id="ex1">
+    <div class="section-head">
+      <span class="section-num">2</span>
+      <h2>Упражнение 1 — выбери форму</h2>
+      <span>10 вопросов</span>
+    </div>
+    <div class="q-list" id="ex1list"></div>
+  </section>
+
+  <section id="ex2">
+    <div class="section-head">
+      <span class="section-num">3</span>
+      <h2>Упражнение 2 — Active или Passive?</h2>
+      <span>9 предложений</span>
+    </div>
+    <div class="pair-list" id="ex2list"></div>
+  </section>
+
+  <section id="ex3">
+    <div class="section-head">
+      <span class="section-num">4</span>
+      <h2>Упражнение 3 — Active → Passive</h2>
+      <span>tap a card for the answer</span>
+    </div>
+    <p class="ex-desc">Попробуйте переделать Активный залог в Пассивный!</p>
+    <div class="tile-grid" id="ex3list"></div>
+  </section>
+
+  <section id="ex4">
+    <div class="section-head">
+      <span class="section-num">5</span>
+      <h2>Упражнение 4 — переведи на английский</h2>
+      <span>tap a card for the answer</span>
+    </div>
+    <div class="tile-grid" id="ex4list"></div>
+  </section>
+
+  <footer>The Case Files &middot; passive voice, investigated one superhero at a time</footer>
+</div>
+
+<script>
+/* ---------------- THEORY ACCORDION (текст сохранён без изменений) ---------------- */
+const tenses = [
+  {title:'Present Simple Passive: am/is/are + V3 🕸️', lines:[
+    'Mary Jane is loved by Peter Parker. 💕 — Мэри Джейн любима Питером.',
+    'Peter Parker is bitten by a spider. 🕷️ — Питер Паркер укушен пауком.',
+    'Hermione is respected by all students. 📚 — Гермиону уважают все ученики.'
+  ]},
+  {title:'Past Simple Passive: was/were + V3 🦇', lines:[
+    'Batman was created by Bob Kane. ✍️ — Бэтмен был создан Бобом Кейном.',
+    'The Penguin was defeated by Batman. 🐧 — Пингвин был побеждён Бэтменом.',
+    'Gwen Stacy was killed by the Green Goblin. 💔 — Гвен Стейси была убита Зелёным гоблином.'
+  ]},
+  {title:'Present Continuous Passive: am/is/are being + V3 👀', note:'Это происходит прямо сейчас! Now! ⏰', lines:[
+    'Peter is being watched by Mary Jane now. 👁️ — За Питером наблюдает Мэри Джейн сейчас.',
+    'The Penguin is being chased by Batman right now. 🏃 — Пингвина сейчас преследует Бэтмен.',
+    'Harry Potter is being followed by Draco Malfoy now. 🐍 — За Гарри Поттером следит Драко Малфой сейчас.'
+  ]},
+  {title:'Present Perfect Passive: have/has been + V3 🩹', note:'Важно: действие произошло в прошлом, но результат важен сейчас! (в отличие от Past Simple, где просто факт в прошлом) ⏳', lines:[
+    'Batman has been injured many times. 🤕 — Бэтмен был ранен много раз (и это влияет на него сейчас).',
+    'Peter Parker has been blamed for Gwen’s death. 😔 — Питера обвинили в смерти Гвен (и он до сих пор это чувствует).',
+    'Ron has been mocked by Malfoy many times. 😤 — Рона дразнил Малфой много раз (и это его задевает до сих пор).'
+  ], compare:'Сравни:\nBatman was injured. — Бэтмен был ранен (когда-то, просто факт) 🦇\nBatman has been injured. — Бэтмен ранен (и сейчас последствия видны, например, он не может ходить сейчас или ему сложно драться, потому что в селезёнку отдаёт и теперь ему нужно ездить покупать таблетки. В общем, последствия драки прилетают до сих пор!) 🤕'},
+  {title:'Future Simple Passive: will be + V3 🚔', lines:[
+    'The Penguin will be arrested by Batman. 🔒 — Пингвин будет арестован Бэтменом.',
+    'Mary Jane will be saved by Spider-Man. 💪 — Мэри Джейн будет спасена Человеком-пауком.',
+    'Malfoy will be punished by Professor McGonagall. 🪄 — Малфой будет наказан профессором МакГонагалл.'
+  ]},
+  {title:'Modal Passive: modal + be + V3 🧩', lines:[
+    'Gwen could be saved by Spider-Man. 😢 — Гвен могла быть спасена Человеком-пауком.',
+    'The Penguin must be stopped by Batman. ✋ — Пингвин должен быть остановлен Бэтменом.',
+    'Hermione can be trusted by Harry and Ron. 🤝 — Гермионе можно доверять (Гарри и Рон могут ей доверять).',
+    'Dumbledore should be respected by all wizards. 🧙‍♂️ — Дамблдора следует уважать всем волшебникам.',
+    'Sirius has to be hidden by the Order. 🐺 — Сириуса приходится прятать Ордену.',
+    'Voldemort has to be stopped by the wizarding world. ⚡ — Волан-де-Морт должен быть остановлен волшебным миром.',
+    'Sirius Black can be freed by Harry and Hermione. 🏠 — Сириус Блэк может быть освобождён Гарри и Гермионой.'
+  ]},
+];
+
+const accEl = document.getElementById('accordion');
+tenses.forEach((t) => {
+  const item = document.createElement('div');
+  item.className = 'acc-item';
+  item.innerHTML = `
+    <div class="acc-head">
+      <div class="acc-title">${t.title}</div>
+      <div class="acc-arrow">▾</div>
+    </div>
+    <div class="acc-body">
+      ${t.note ? `<div class="acc-note">${t.note}</div>` : ''}
+      ${t.lines.map(l => `<div class="ex-line">${l}</div>`).join('')}
+      ${t.compare ? `<div class="compare-box">${t.compare}</div>` : ''}
+    </div>`;
+  item.querySelector('.acc-head').addEventListener('click', () => item.classList.toggle('open'));
+  accEl.appendChild(item);
+});
+if(accEl.firstElementChild) accEl.firstElementChild.classList.add('open');
+
+/* Active → Passive (трансформация) */
+document.getElementById('transform').innerHTML = `
+  <div class="line" style="font-family:'PT Serif', serif; font-weight:700; font-size:17px; margin-bottom:6px;">Active → Passive (трансформация) 🔄</div>
+  <div class="transform-item">Batman defeated the Penguin. 🐧 → The Penguin was defeated by Batman. 🦇<div class="ru">— Бэтмен победил Пингвина. → Пингвин был побеждён Бэтменом.</div></div>
+  <div class="transform-item">Peter loves Mary Jane. 💕 → Mary Jane is loved by Peter. 🕷️<div class="ru">— Питер любит Мэри Джейн. → Мэри Джейн любима Питером.</div></div>
+  <div class="transform-item">Malfoy insulted Ron. 😠 → Ron was insulted by Malfoy. 😤<div class="ru">— Малфой оскорбил Рона. → Рон был оскорблён Малфоем.</div></div>
+`;
+
+/* ---------------- EXERCISE 1 : MCQ ---------------- */
+const ex1 = [
+  {q:'Mary Jane ________ by Peter Parker. It is just a fact 💕', opts:['is loved','was loved','is being loved'], correct:0},
+  {q:'The Penguin ________ by Batman yesterday. 🐧', opts:['is defeated','was defeated','has been defeated'], correct:1},
+  {q:'Right now Harry Potter ________ by Draco Malfoy. 🐍', opts:['is followed','is being followed','was followed'], correct:1},
+  {q:'Gwen Stacy ________ by the Green Goblin 1 year ago. 💔', opts:['is killed','has been killed','was killed'], correct:2},
+  {q:'Batman ________ many times, and he still feels it. 🤕', opts:['was injured','has been injured','is injured'], correct:1},
+  {q:'The Penguin ________ by Batman tomorrow. 🔒', opts:['is arrested','was arrested','will be arrested'], correct:2},
+  {q:'Hermione ________ by all students, and everyone knows it. 📚', opts:['is respected','was respected','is being respected'], correct:0},
+  {q:'Ron ________ by Malfoy many times, and it still hurts him. 😤', opts:['was mocked','has been mocked','is mocked'], correct:1},
+  {q:'Peter Parker ________ by a spider last week. 🕷️', opts:['is bitten','was bitten','has been bitten'], correct:1},
+  {q:'The Penguin ________ by Batman right now. 🏃', opts:['is chased','is being chased','was chased'], correct:1},
+];
+
+const ex1El = document.getElementById('ex1list');
+ex1.forEach((item, i) => {
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.innerHTML = `<div class="q-prompt"><span class="q-num">${i+1}.</span> ${item.q}</div>
+    <div class="opts">${item.opts.map((o, oi) => `<button class="opt" data-i="${oi}">${o}</button>`).join('')}</div>`;
+  card.querySelectorAll('.opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if(card.classList.contains('answered')) return;
+      card.classList.add('answered');
+      const chosen = parseInt(btn.dataset.i);
+      card.querySelectorAll('.opt').forEach(b => b.classList.add('disabled'));
+      if(chosen === item.correct){
+        btn.classList.add('correct');
+      } else {
+        btn.classList.add('wrong');
+        card.querySelectorAll('.opt')[item.correct].classList.add('correct');
+      }
+    });
+  });
+  ex1El.appendChild(card);
+});
+
+/* ---------------- EXERCISE 2 : Active vs Passive toggle ---------------- */
+const ex2 = [
+  {before:'Batman ', a:'defeated', b:'was defeated', after:' the Penguin. 🐧', correct:'a'},
+  {before:'Mary Jane ', a:'loves', b:'is loved', after:' by Peter Parker. 💕', correct:'b'},
+  {before:'Gwen Stacy ', a:'killed', b:'was killed', after:' by the Green Goblin. 💔', correct:'b'},
+  {before:'Harry Potter ', a:'is following', b:'is being followed', after:' by Draco Malfoy right now. 🐍', correct:'b'},
+  {before:'Malfoy ', a:'will punish', b:'will be punished', after:' by Professor McGonagall. 🪄', correct:'b'},
+  {before:'Hermione ', a:'respects', b:'is respected', after:' by all students. 📚', correct:'b'},
+  {before:'Peter Parker ', a:'has blamed', b:'has been blamed', after:' for Gwen’s death. 😔', correct:'b'},
+  {before:'The Penguin ', a:'must stop', b:'must be stopped', after:' by Batman. ✋', correct:'b'},
+  {before:'Ron ', a:'mocked', b:'was mocked', after:' by Malfoy many times. 😤', correct:'b'},
+];
+
+const ex2El = document.getElementById('ex2list');
+ex2.forEach((item, i) => {
+  const card = document.createElement('div');
+  card.className = 'pair-card';
+  card.innerHTML = `<span>${i+1}. ${item.before}</span>
+    <span class="pair-toggle">
+      <button class="pair-btn" data-v="a">${item.a}</button>
+      <button class="pair-btn" data-v="b">${item.b}</button>
+    </span>
+    <span>${item.after}</span>`;
+  card.querySelectorAll('.pair-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if(card.dataset.answered) return;
+      card.dataset.answered = '1';
+      const chosen = btn.dataset.v;
+      if(chosen === item.correct){
+        btn.classList.add('correct');
+      } else {
+        btn.classList.add('wrong');
+        card.querySelector(`[data-v="${item.correct}"]`).classList.add('correct');
+      }
+    });
+  });
+  ex2El.appendChild(card);
+});
+
+/* ---------------- EXERCISE 3 : square tiles, Active -> Passive ---------------- */
+const ex3 = [
+  {q:'Batman created the Penguin’s criminal record.', emoji:'🐧', a:'The Penguin’s criminal record was created by Batman.', ru:'Уголовное досье Пингвина было создано Бэтменом.'},
+  {q:'Peter Parker loves Mary Jane.', emoji:'💕', a:'Mary Jane is loved by Peter Parker.', ru:'Мэри Джейн любима Питером Паркером.'},
+  {q:'The Green Goblin killed Gwen Stacy.', emoji:'💔', a:'Gwen Stacy was killed by the Green Goblin.', ru:'Гвен Стейси была убита Зелёным гоблином.'},
+  {q:'Draco Malfoy is following Harry Potter right now.', emoji:'🐍', a:'Harry Potter is being followed by Draco Malfoy right now.', ru:'За Гарри Поттером сейчас следит Драко Малфой.'},
+  {q:'Professor McGonagall will punish Malfoy.', emoji:'🪄', a:'Malfoy will be punished by Professor McGonagall.', ru:'Малфой будет наказан профессором МакГонагалл.'},
+  {q:'Malfoy has mocked Ron many times.', emoji:'😤', a:'Ron has been mocked by Malfoy many times.', ru:'Рона много раз дразнил Малфой.'},
+  {q:'The wizarding world must stop Voldemort.', emoji:'⚡', a:'Voldemort must be stopped by the wizarding world.', ru:'Волан-де-Морт должен быть остановлен волшебным миром.'},
+  {q:'The Order has to hide Sirius Black.', emoji:'🐺', a:'Sirius Black has to be hidden by the Order.', ru:'Сириуса Блэка приходится прятать Ордену.'},
+  {q:'Bob Kane created Batman.', emoji:'✍️', a:'Batman was created by Bob Kane.', ru:'Бэтмен был создан Бобом Кейном.'},
+  {q:'A spider bit Peter Parker.', emoji:'🕷️', a:'Peter Parker was bitten by a spider.', ru:'Питер Паркер был укушен пауком.'},
+];
+
+function buildTiles(container, data){
+  data.forEach((item) => {
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.innerHTML = `
+      <div class="tile-inner">
+        <div class="tile-face tile-front">
+          <span class="tile-tag">tap to flip</span>
+          <span class="tile-word">${item.q}</span>
+          <span class="tile-emoji">${item.emoji}</span>
+        </div>
+        <div class="tile-face tile-back">
+          <span class="tile-tag">answer</span>
+          <span class="tile-answer">${item.a}</span>
+          ${item.ru ? `<span class="tile-ru">${item.ru}</span>` : ''}
+          <span class="tile-hint">tap to flip back</span>
+        </div>
+      </div>`;
+    tile.addEventListener('click', () => tile.classList.toggle('flipped'));
+    container.appendChild(tile);
+  });
+}
+buildTiles(document.getElementById('ex3list'), ex3);
+
+/* ---------------- EXERCISE 4 : square tiles, RU -> EN passive ---------------- */
+const ex4 = [
+  {q:'Плащ Бэтмена был украден Джокером.', emoji:'🃏', a:'Batman’s cape was stolen by the Joker.'},
+  {q:'Гвен Стейси была сброшена с башни Зелёным гоблином.', emoji:'🏗️', a:'Gwen Stacy was thrown off the tower by the Green Goblin.'},
+  {q:'Письмо Хогвартса было доставлено Гарри совой.', emoji:'🦉', a:'The Hogwarts letter was delivered to Harry by an owl.'},
+  {q:'Питер был укушен пауком в лаборатории.', emoji:'🕷️', a:'Peter was bitten by a spider in the lab.'},
+  {q:'Зелье Гермионы было испорчено Малфоем.', emoji:'🧪', a:'Hermione’s potion was ruined by Malfoy.'},
+  {q:'Метла Гарри будет отремонтирована Гермионой.', emoji:'🧹', a:'Harry’s broom will be repaired by Hermione.'},
+  {q:'Дамблдор был убит Снейпом.', emoji:'🧙‍♂️', a:'Dumbledore was killed by Snape.'},
+  {q:'Бэтмен был создан Бобом Кейном.', emoji:'✍️', a:'Batman was created by Bob Kane.'},
+  {q:'Сириус Блэк был арестован Министерством магии.', emoji:'🐺', a:'Sirius Black was arrested by the Ministry of Magic.'},
+];
+buildTiles(document.getElementById('ex4list'), ex4);
+</script>
+</body>
+</html>
